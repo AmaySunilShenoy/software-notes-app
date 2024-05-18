@@ -1,0 +1,22 @@
+{
+  "name": "branching-env",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "set NODE_ENV=development&& node index.js",
+    "release": "set NODE_ENV=release&& node index.js",
+    "prod": "set NODE_ENV=production&& node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "mongoose": "^8.4.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
