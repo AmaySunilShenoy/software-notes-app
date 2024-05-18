@@ -3,6 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 
+const noteRoutes = require("./routes/note.routes");
 const app = express();
 
 // Load environment variables
@@ -21,6 +22,8 @@ app.use(express.json());
 app.use(cors({}));
 app.use(helmet());
 
+// Routes
+app.use("/note", noteRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT} in ${NODE_ENV} mode with mongo uri ${MONGO_URI}`);
