@@ -1,12 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const mongoose = require("mongoose");
 
 const app = express();
 
 // Load environment variables
 const config = require("./config"); 
 const {PORT, NODE_ENV, MONGO_URI} = config;
+
+// connect to the database
+mongoose
+    .connect(MONGO_URI)
+    .then(() => console.log("MongoDB connected successfully"))
+    .catch((err) => console.log(err));
 
 
 // Middleware
