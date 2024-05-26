@@ -1,30 +1,11 @@
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const mongoose = require("mongoose");
-
-const noteRoutes = require("./routes/note.routes");
-const app = express();
+const app = require('./src/app');
 
 // Load environment variables
 const config = require("./config"); 
-const {PORT, NODE_ENV, MONGO_URI} = config;
+const {PORT} = config;
 
-// connect to the database
-mongoose
-    .connect(MONGO_URI)
-    .then(() => console.log("MongoDB connected successfully"))
-    .catch((err) => console.log(err));
-
-
-// Middleware
-app.use(express.json());
-app.use(cors({}));
-app.use(helmet());
-
-// Routes
-app.use("/note", noteRoutes);
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT} in ${NODE_ENV} mode with mongo uri ${MONGO_URI}`);
+const server = app.listen(PORT , () => {
+	console.log(`Application running on port: ${PORT}`);
 });
+
+module.exports = server;
