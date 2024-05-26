@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "set NODE_ENV=development&& node index.js",
     "release": "set NODE_ENV=release&& node index.js",
-    "prod": "set NODE_ENV=production&& node index.js"
+    "prod": "set NODE_ENV=production&& node index.js",
+    "test:watch": "mocha --watch ./src/tests/*.spec.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,11 @@
     "mongoose": "^8.4.0"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5"
+    "chai": "^4.4.1",
+    "dotenv": "^16.4.5",
+    "mocha": "^10.4.0",
+    "nyc": "^15.1.0",
+    "sinon-chai": "^3.7.0",
+    "supertest": "^7.0.0"
   }
 }
