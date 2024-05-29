@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "dev": "set NODE_ENV=development&& node index.js",
     "release": "set NODE_ENV=release&& node index.js",
     "prod": "set NODE_ENV=production&& node index.js",
-    "test:watch": "mocha --watch ./src/tests/*.spec.js"
+    "test": "mocha  ./src/tests/*.spec.js --exit",
+    "test:nyc": "nyc mocha  ./src/tests/*.spec.js",
+    "test:watch": "mocha --watch  ./src/tests/*.spec.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,13 +18,16 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
-    "mongoose": "^8.4.0"
+    "mongoose": "^6.2.6"
   },
   "devDependencies": {
     "chai": "^4.4.1",
+    "sinon": "^18.0.0",
+    "chai-as-promised": "^7.1.2",
     "dotenv": "^16.4.5",
     "mocha": "^10.4.0",
     "nyc": "^15.1.0",
+    "rewire": "^7.0.0",
     "sinon-chai": "^3.7.0",
     "supertest": "^7.0.0"
   }
