@@ -1,67 +1,81 @@
 const Note = require('../models/note.model');
 
 // Create a new note
-const createNote = async (req, res) => {
-    const { title, content } = req.body;
-    if (!title || !content) return res.status(400).json({ message: 'Missing Fields' });
+const createNote = async (note) => {
+    if(!note) throw new Error('Missing note');
+    if (!note.title) throw new Error('Missing title');
     try {
-        const newNote = new Note({
-            title,
-            content
-        });
-        const note = await newNote.save();
-        res.json(note);
+        const newNote = new Note(note);
+        const result = await newNote.save();
+        
+        return result
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        throw new Error(err);
     }
 };
 
 // Get all notes
-const getNotes = async (req, res) => {
+const getNotes = async () => {
     try {
         const notes = await Note.find();
-        res.json(notes);
+        return notes;
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        throw new Error('Error fetching notes');
     }
 };
 
-// Get a single note by ID
-const getNote = async (req, res) => {
+// Get a single note
+const getNote = async (id) => {
+    if (!id) throw new Error('Invalid item id');
     try {
-        if(!req.params.id) return res.status(400).json({ message: 'Missing ID' });
+        const note = await Note.findOne(id);
 
-        const note = await Note.findById(req.params.id);
-        if (!note) return res.status(404).json({ message: 'Note not found' });
-        res.json(note);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        return note;
     }
-};
+    catch (err) {
+        throw new Error('Error fetching note');
+    }
+}
 
 // Update a note
-const updateNote = async (req, res) => {
-    const { title, content } = req.body;
+const updateNote = async (id, note) => {
+    if (!id) throw new Error('Invalid item id');
+    if (!note) throw new Error('No update passed')
     try {
-        if(!req.params.id) return res.status(400).json({ message: 'Missing ID' });
+        const updatedNote = await Note.findOne(id);
 
-        const note = await Note.findById(req.params.id);
-        if (!note) return res.status(404).json({ message: 'Note not found' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        if(!updatedNote) throw new Error('Note not found');
+
+        if(note.title) updatedNote.title = note.title;
+        if(note.content) updatedNote.content = note.content;
+        const result = await updatedNote.save();
+    
+        return result;
+    }
+    catch (err) {
+        console.log(err)
+        throw new Error('Error updating note');
     }
 }
 
 // Delete a note
-const deleteNote = async (req, res) => {
+const deleteNote = async (id) => {
+    if (!id) throw new Error('Invalid item id');
     try {
-        if(!req.params.id) return res.status(400).json({ message: 'Missing ID' });
-        const note = await Note.findById(req.params.id);
-        if (!note) return res.status(404).json({ message: 'Note not found' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        const note = await Note.findOne(id);
+
+        if(!note) throw new Error('Note not found');
+        const result = await note.remove();
+
+        return result;
+    }
+    catch (err) {
+        throw new Error('Error deleting note');
     }
 }
+
+
+
 
 module.exports = {
     createNote,
